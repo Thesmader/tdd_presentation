@@ -40,6 +40,14 @@ If you are working in the application for nth time, pick something that will hav
 refactor the implementation and move on to the next test.
 
 ---
+# Things that developers should avoid when practicing TDD:
+1. Writing tests that are too complex.
+2. Writing tests that duplicate functionality: Developers should avoid writing tests that duplicate functionality already covered by other tests, as this can lead to redundancy and make the test suite more difficult to manage.
+3. Writing too much code before writing tests: TDD emphasizes writing tests before writing production code. Developers should avoid writing large amounts of production code before writing tests, as this can make it more difficult to test the code and can lead to a less effective test suite.
+4. Neglecting to refactor code: TDD involves continuously refactoring code to make it cleaner, more maintainable, and easier to understand.
+5. Neglecting collaboration with stakeholders: TDD emphasizes collaboration between developers, testers, and business stakeholders to ensure that software is meeting the needs of its users. Developers should avoid neglecting collaboration with stakeholders, as this can lead to misunderstandings, missed requirements, and software that doesn't meet user needs.
+
+---
 # Recommended first steps for developers who want to start using TDD:
 1. Start with a small project: If you're new to TDD, it's a good idea to start with a small project to get familiar with the approach. Choose a project that you can complete in a short amount of time, such as a simple utility or a small feature of a larger application.
 2. Identify the requirements: Before you start writing any code, identify the requirements for the project. What problem are you trying to solve? What functionality do you need to implement? What inputs and outputs are involved?
@@ -50,22 +58,31 @@ refactor the implementation and move on to the next test.
 
 By following these steps, you can start to get a sense of how TDD works and how it can help you to build better software. Over time, you can refine your TDD skills and become more proficient at using this approach to develop high-quality, maintainable code.
 
+---
+# Refactoring with TDD
 
-
-
-# Refactoring
-
-Don't do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
+Aim to not do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
 (tests help with that).
 
-## Approaches to refactoring:
-- Isolate Changes: Try to isolate the parts where you're making changes while refactoring. And make sure the system as a whole is still works
-- Migrate Data (gradually):
-- Extracting methods: Q. How do you make a long, complicated method easier to read?
-A. Turn a small part of it into a separate method and call the new method. Keep doing this until you can make sense of the longer method. Extracting parts of the long method
-into smaller ones helps to understand what is happening there.
-  -
-- Inline method:
+---
+# Encourages safer changes:
+
+With TDD when you are writing tests before you write the code, you will have a clear idea of what the code needs to do and how it should
+behave. If you have good tests covering the existing code, you can make changes confidently, as the tests will detect any regressions
+
+---
+# Facilitate better design decisions
+
+A core principle of TDD is to make small, incermental additions/changes to the code when you need it. This allows you to focus on
+breaking down large, complex pieces of code into smaller, more manageable components. This leads to having more flexible code in
+the long run
+
+---
+# Promotes collaboration while refactoring
+
+Tests can promote team members to work together on refactoring code. Tests can help build a shared understanding of the requirement
+and behavior of the code. When team members are familiar with the tests covering a piece of code and what they're testing for,
+it becomes easier to work together for refactoring.
 
 ---
 # Mastering TDD
@@ -98,14 +115,8 @@ badly designed.
 - Tests don't break when you don't expect them to
 
 ---
-## TDD leads to frameworks
-Test driving development leaves you with frameworks that are good at expressing exactly the necessary spots to accomodate a variation. Once you've been test driving
-development long enough, you can recover from most of your mistakes faster than you can recognize you've made them.
-
----
 ## How much feedback do you need?
 AKA, how many tests should you write?
-
 There's no correct answer to this. Be smart about it. Take the following problem as an example:
 
 Given 3 integers representing the length of sides of a triangle, return:
@@ -121,12 +132,15 @@ there's no point of writing this test. Writing or not writing a test for this ca
 Tests are here for us to have confidence in the code we write. If your knowledge of the implementation, gives confidence even without a test, then you can choose to ignore
 the test.
 
-
+---
+## TDD leads to frameworks
+Test driving development leaves you with frameworks that are good at expressing exactly the necessary spots to accomodate a variation. Once you've been test driving
+development long enough, you can recover from most of your mistakes faster than you can recognize you've made them.
 
 ---
-# Things that developers should avoid when practicing TDD:
-1. Writing tests that are too complex.
-2. Writing tests that duplicate functionality: Developers should avoid writing tests that duplicate functionality already covered by other tests, as this can lead to redundancy and make the test suite more difficult to manage.
-3. Writing too much code before writing tests: TDD emphasizes writing tests before writing production code. Developers should avoid writing large amounts of production code before writing tests, as this can make it more difficult to test the code and can lead to a less effective test suite.
-4. Neglecting to refactor code: TDD involves continuously refactoring code to make it cleaner, more maintainable, and easier to understand.
-5. Neglecting collaboration with stakeholders: TDD emphasizes collaboration between developers, testers, and business stakeholders to ensure that software is meeting the needs of its users. Developers should avoid neglecting collaboration with stakeholders, as this can lead to misunderstandings, missed requirements, and software that doesn't meet user needs.
+## Can you test drive enormous systems?
+
+If you're following TDD correctly, the amount of functionality in the system doesn't seem to have a bearing on the effectiveness of TDD.
+By eliminating duplication, creating smaller objects, breaking a feature in to smaller parts and separating them, 
+all these different entities can be tested in isolation. The most important factor here is that the code be written with tests
+in mind
