@@ -58,6 +58,237 @@ refactor the implementation and move on to the next test.
 
 By following these steps, you can start to get a sense of how TDD works and how it can help you to build better software. Over time, you can refine your TDD skills and become more proficient at using this approach to develop high-quality, maintainable code.
 
+# Green Bar Patterns
+
+Treat a red bar as a condition to be fixed as quickly as possible. To do that we have following patterns to leverage.
+
+* Fake it (Until you make it)
+* Triangulate
+* Obvious Implementation 
+* One to Many
+
+---
+
+# Fake it (Until you make it)
+
+Say we have a broken test, the quickest way to a green bar is to replace the expression with a constant. Once we confirm on getting a green bar after using a constant, we can then work our way up to converting that into an expression.
+
+~~~java
+@Test
+public void testLength()
+{
+	final int result = objectUnderTest.myLength("hello");
+	assertEquals(5, result)
+}
+~~~
+
+---
+# What makes "Fake it" a powerful pattern?
+
+* Psychological Effect - Green bar: GOOD, red bar: BAD.
+* Scope Control - Starting with something concrete and generalizing stuff from there prevents premature confusion.
+
+
+PS: Do not confuse the above as a necessary step. The above implies when you wrote an *obvious implementation* and somehow the test did not pass. The you go back to smaller steps and use this pattern. Things probably will not be as simple as the above example.
+
+---
+
+# Triangulate
+
+Abstract only where there are two or more examples. For instance:
+
+~~~java
+public void testSum()
+{
+	assertEquals(4, plus(3,1));
+}
+
+private int plus(int augend, int addend)
+{
+	return 4; //(is this fake it?!)
+}
+~~~
+
+Now if we were triangulating to the right design, we would write
+
+~~~java 
+public testSum()
+{
+	assertEquals(4, plus(3,1))
+	assertEquals(7, plus(3,4))
+}
+~~~
+
+Which would convert `plus()` eventually into:
+
+~~~java
+public plus(int augent, int addend)
+{
+	return augend+addend;
+}
+~~~
+
+---
+
+# Obvious Implementation
+
+If you're sure of the exact implementation needed, go right ahead. If your implementation gives red bars, go back to smaller steps/patterns like triangulation or fake it.
+
+This however can be psychologically devastating, becuase you're kind of demanding perfection from yourself. You're solving "clean code" as well as "that works".
+
+PS: Maintain RED, GREEN, REFACTOR rhythm.
+
+---
+
+# One to Many
+
+If there is an operation that needs to handle a collection of objects, implement it without collections first. Then make it work with collections.
+
+For instance, in case we need to work with an array of numbers, we can simply start with just one!!
+
+Here we need to write a function to sum an array of numbers:
+
+~~~java
+public void testSum()
+{
+	assertEquals(5, sum(5));
+}
+
+private int sum(int value)
+{
+	return value;
+}
+~~~
+
+The above gets converted into
+
+~~~java
+
+public void testSum()
+{
+	assertEquals(5, sum(new int[] {5}));
+}
+
+
+private int sum(int[] values)
+{
+	int sum = 0;
+	for(int i=0; i<values.length; i++)
+	{
+		sum+=values[i];
+	}
+	return sum;
+}
+~~~
+---
+# Design Patterns
+
+Applying objects to organize computing is one of the best examples of common internally generated subproblems being solved in common, predictable ways. We can extend the same approach for design to TDD, although with some slight differences.
+
+Following are the design patterns we'll be covering:
+* Command
+* Value Object
+* Null Object
+* Template Method
+* Pluggable Object
+* Factory Method
+* Composite
+* Collecting parameter
+---
+# Command
+
+## Brief
+Represent the invocation of a computation as an object, not just as a message.
+
+When we need invocation to be just a little more concrete and manipulable than a message, objects give us the answer.
+Make an object representing the invocation. Seed it with all the parameters the computation will need. When we're ready to invoke it, use generic protocol, like `run()`. In the implementation of `run()` we can do anything we like.
+
+~~~java
+interface Runnable
+	public abstract void run();
+~~~
+---
+# Value Object
+
+## Brief
+Avoid aliasing problems by making objects whose values never change once created.
+
+If two objects share a reference to a third, and if one object changes the shared object, then the other object better not rely on the state of the shared object.
+
+How to resolve aliasing problems?!
+When implementing a Value Object, every operation has to return a fresh object, leaving the original unchanged.
+---
+# Null Object
+
+## Brief
+Represent the base case of a computation by an object.
+
+### Example
+
+~~~java
+public boolean setReadOnly() {
+	SecurityManager guard = System.getSecurityManager(); 
+	if (guard != null) {
+		guard.canWrite(path); 
+	}
+	return fileSystem.setReadOnly(this); 
+}
+~~~
+
+Say we have multiple places where `guard != null` is being checked. As the number of touch points increase, it becomes increasingly complex to ensure that null checks at every touchpoints are being made.
+
+
+What's the solution to the above issue?!
+An intuitive solution is to create a new class, which does not throw error, like so.
+
+~~~java
+public static SecurityManager getSecurityManager() 
+{ 
+	return security == null ? new LaxSecurity() : security;
+}
+~~~
+
+~~~java
+public boolean setReadOnly() 
+{
+	SecurityManager security = System.getSecurityManager();
+	security.canWrite(path);
+	return fileSystem.setReadOnly(this);
+}
+~~~
+
+---
+
+#Template Method
+
+## Brief
+Represent invariant sequences of computation with an abstract method intended to be specialized through inheritance.
+
+In simple words, have a base class which can then be extended to other subclasses as per their specific use case.
+
+### Example
+
+
+---
+
+# Pluggable Object
+
+## Brief
+Represent variation by invoking another object with two or more implementations.
+
+Pluggable objects come in handy when we have to express/demonstrate variation. The simplest/intuitive way for this is to use conditionals, but the caveat here is that conditional can expand and become complex to handle. Also, it's duplication. This is where pluggable objects come in.
+
+
+#### Duplication Example
+~~~java
+if (condition 1){
+
+}else if (condition 2){
+
+}
+~~~
+
+
 ---
 # Refactoring with TDD
 
