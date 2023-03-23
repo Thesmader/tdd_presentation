@@ -58,6 +58,7 @@ refactor the implementation and move on to the next test.
 
 By following these steps, you can start to get a sense of how TDD works and how it can help you to build better software. Over time, you can refine your TDD skills and become more proficient at using this approach to develop high-quality, maintainable code.
 
+---
 # Green Bar Patterns
 
 Treat a red bar as a condition to be fixed as quickly as possible. To do that we have following patterns to leverage.
@@ -191,9 +192,7 @@ Following are the design patterns we'll be covering:
 * Null Object
 * Template Method
 * Pluggable Object
-* Factory Method
-* Composite
-* Collecting parameter
+
 ---
 # Command
 
@@ -269,6 +268,75 @@ In simple words, have a base class which can then be extended to other subclasse
 ### Example
 
 
+Initial implementation
+~~~java
+public class worldOfWarcraftLoader(){
+	public void load(){
+		system.out.println("loading local WoW files");
+		// some code
+		system.out.println("creating needed WoW objects");
+		//some code
+		system.out.println("Downloading WoW sounds and videos");
+		//some code
+		system.out.println("cleaning temp files");
+		//some code
+		system.out.println("Loading saved WoW profiles");
+		//some code
+	}
+}
+
+public class Diablo(){
+	public void load()
+	{
+		system.out.println("loading local Diablo files");
+		//some code
+		system.out.println("creating needed diablo objects");
+		//some code
+		system.out.println("Downloading diable sounds and videos");
+		//some code
+		system.out.println("cleaning temp files");
+		//some code
+		system.out.println("Loading saved diablo profiles");
+		//some code
+	}
+}
+~~~
+---
+How to get rid of code duplication here?!
+
+* Break down the steps into a series of methods
+* put a series of calls to these method/steps inside a "template method"
+* The steps can either be abstract or they can have some default implementation inside the parent class
+
+---
+
+~~~java
+
+public abstract class BaseGameLoader{
+	public void load(){
+		byte[] data = loadLocalData();
+		createObjects(data);
+		downloadAdditionalFiles();
+		cleanTempFiles();
+		initializeProfiles();
+	}
+
+	abstract byte[] loadLocalData();
+	abstract void createObjects(byte[] data);
+	abstract void downloadAdditionalFiles();
+	abstract void initializeProfiles();
+
+	protected void cleanTempFiles(){
+		// some code
+	}
+}
+
+The above base class now can be extended to each subclass.
+
+We define the skeleton in the base class and let the subclass override whenever necessary.
+
+~~~
+
 ---
 
 # Pluggable Object
@@ -278,21 +346,66 @@ Represent variation by invoking another object with two or more implementations.
 
 Pluggable objects come in handy when we have to express/demonstrate variation. The simplest/intuitive way for this is to use conditionals, but the caveat here is that conditional can expand and become complex to handle. Also, it's duplication. This is where pluggable objects come in.
 
+### Context
+When writing a graphics editor, selection is actually a bit complicated. If you're over a figure when you press the mouse button, then subsequent moves of the mouse move that figure and releasing the mouse button leaves the figure selected. If you're not over a figure, then you are selecting a group of figures, and subsequent moves of the mouse typically resize a rectangle used to select several figures. Releasing the mouse button causes the figures inside the rectangle to be selected. The initial code looks something like this:
 
 #### Duplication Example
 ~~~java
-if (condition 1){
-
-}else if (condition 2){
-
+Figure selected;
+public void mouseDown() {
+	selected= findFigure(); 
+	if (selected != null)
+		select(selected); 
+}
+public void mouseMove() { 
+	if (selected != null)
+		move(selected); 
+	else
+		moveSelectionRectangle(); 
+}
+public void mouseUp() { 
+	if (selected == null)
+		selectAll(); 
 }
 ~~~
 
+To remove duplication, we can create a pluggable object, a `SelectionMode`, with two implementations, `SingleSelection` and `MultipleSelection`.
 
+<<<<<<< HEAD
+=======
+~~~java
+SelectionMode mode; 
+public void mouseDown() 
+{
+	selected= findFigure(); 
+	if (selected != null)
+		mode= SingleSelection(selected); 
+	else
+		mode= MultipleSelection(); 
+}
+
+public void mouseMove() 
+{ 
+	mode.mouseMove();
+}
+
+public void mouseUp() 
+{
+	mode.mouseUp(); 
+}
+
+~~~
+>>>>>>> 30d053b (final)
 ---
 # Refactoring with TDD
 
+<<<<<<< HEAD
 Aim to not do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
+=======
+# Refactoring
+
+Don't do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
+>>>>>>> 30d053b (final)
 (tests help with that).
 
 ---
