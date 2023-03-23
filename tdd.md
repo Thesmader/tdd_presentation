@@ -338,7 +338,6 @@ We define the skeleton in the base class and let the subclass override whenever 
 ~~~
 
 ---
-
 # Pluggable Object
 
 ## Brief
@@ -371,8 +370,6 @@ public void mouseUp() {
 
 To remove duplication, we can create a pluggable object, a `SelectionMode`, with two implementations, `SingleSelection` and `MultipleSelection`.
 
-<<<<<<< HEAD
-=======
 ~~~java
 SelectionMode mode; 
 public void mouseDown() 
@@ -393,19 +390,12 @@ public void mouseUp()
 {
 	mode.mouseUp(); 
 }
-
 ~~~
->>>>>>> 30d053b (final)
+
 ---
 # Refactoring with TDD
 
-<<<<<<< HEAD
 Aim to not do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
-=======
-# Refactoring
-
-Don't do "Leap of Faith" refactoring, unless you can repeat the refactoring mechanically. The strategy should always be to take small steps and have concrete feedback
->>>>>>> 30d053b (final)
 (tests help with that).
 
 ---
