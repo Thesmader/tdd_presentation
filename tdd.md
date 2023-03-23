@@ -5,28 +5,42 @@ Points covered,
 3. How do we choose what logic to test?
 4. How do we choose what data to test?
 
-Lets see an example of a Sam an employee who's not aligned with TDD.
-Once he starts to feel more stress, the less testing he'll do, the less testing he do, the more errors he'll make, the more error's you make the more stress he'll feel. This loop is inevitable.
+Lets see an example of a Sam an employee who's not aligned with TDD. 
 
-Lets see an example of a Peter an employee who is aligned with TDD.
-Once he/ she starts to feel more stress, the more tests he'll write, Running the tests immediately gives him more confidence, it reduces the errors made, which further reduces the stress.
+Once he starts to feel more stress, the less testing he'll do, the less testing he do,
+the more errors he'll make, the more error's he make the more stress he'll
+feel. This loop is inevitable.
 
-A mistake when implementing a low level feature which could potentially crash the development environment resulting in rollback to the initial point.  --> reason to why testing shows its importance.
 
-how to do testing?
-First, make the tests so fast to run that you could run then yourself.
-Second, Seek test at a smaller scale then the whole application, tests should be able to ignore one another completely.
-sometimes you'll need to work hard to break your problem into little orthogonal dimensions ( fragments ), so the environment for each test will be easy. 
+
+Lets see an example of a Peter an employee who is aligned with TDD. 
+
+Once he starts to feel more stress, the more tests he'll write, Running the tests
+immediately gives him more confidence, it reduces the errors made, which
+further reduces the stress.
+
+
+A mistake when implementing a low level feature which could potentially crash
+the development environment resulting in rollback to the initial point.  -->
+reason to why testing shows its importance.
+
+---
+# How to do testing?
+1. make the tests so fast to run that you could run then yourself.
+2. Seek test at a smaller scale then the whole application, tests should be able to ignore one another completely.
+    sometimes you'll need to work hard to break your problem into little orthogonal
+    dimensions ( fragments ), so the environment for each test will be easy. 
+
 This method encourages you to isolate tests and compose solutions out of many highly cohesive, loosely coupled objects.
 
 
 Note: The first part of our approach to dealing with programming stress is never to take a step forward unless we know where out foot is at.
-Stop keeping things all in your head, 
-Because the more experience you get -> the more things you know that might need to be done, 
-The more things you need to be done -> the less attention you get for what you are doing,
-The less attention you get for what you are doing -> the less you accomplished
-The less you accomplish -> the more things you knew that needs to be done.
-In the end you are left with your very own soulmate -> STRESS!!
+1. Stop keeping things all in your head, 
+    Because the more experience you get -> the more things you know that might need to be done, 
+    The more things you need to be done -> the less attention you get for what you are doing,
+    The less attention you get for what you are doing -> the less you accomplished
+    The less you accomplish -> the more things you knew that needs to be done.
+    In the end you are left with your very own soulmate -> STRESS!!
 
 
 One method you could try:
@@ -78,8 +92,8 @@ Say we have a broken test, the quickest way to a green bar is to replace the exp
 @Test
 public void testLength()
 {
-	final int result = objectUnderTest.myLength("hello");
-	assertEquals(5, result)
+        final int result = objectUnderTest.myLength("hello");
+        assertEquals(5, result)
 }
 ~~~
 
@@ -90,7 +104,7 @@ public void testLength()
 * Scope Control - Starting with something concrete and generalizing stuff from there prevents premature confusion.
 
 
-PS: Do not confuse the above as a necessary step. The above implies when you wrote an *obvious implementation* and somehow the test did not pass. The you go back to smaller steps and use this pattern. Things probably will not be as simple as the above example.
+PS: Do not confuse the above as a necessary step. The above implies when you wrote an *obvious implementation* and somehow the test did not pass. Then you go back to smaller steps and use this pattern. Things probably will not be as simple as the above example.
 
 ---
 
@@ -101,12 +115,12 @@ Abstract only where there are two or more examples. For instance:
 ~~~java
 public void testSum()
 {
-	assertEquals(4, plus(3,1));
+        assertEquals(4, plus(3,1));
 }
 
 private int plus(int augend, int addend)
 {
-	return 4; //(is this fake it?!)
+        return 4; //(is this fake it?!)
 }
 ~~~
 
@@ -115,8 +129,8 @@ Now if we were triangulating to the right design, we would write
 ~~~java 
 public testSum()
 {
-	assertEquals(4, plus(3,1))
-	assertEquals(7, plus(3,4))
+        assertEquals(4, plus(3,1))
+        assertEquals(7, plus(3,4))
 }
 ~~~
 
@@ -125,7 +139,7 @@ Which would convert `plus()` eventually into:
 ~~~java
 public plus(int augent, int addend)
 {
-	return augend+addend;
+        return augend+addend;
 }
 ~~~
 
@@ -152,12 +166,12 @@ Here we need to write a function to sum an array of numbers:
 ~~~java
 public void testSum()
 {
-	assertEquals(5, sum(5));
+        assertEquals(5, sum(5));
 }
 
 private int sum(int value)
 {
-	return value;
+        return value;
 }
 ~~~
 
@@ -167,18 +181,18 @@ The above gets converted into
 
 public void testSum()
 {
-	assertEquals(5, sum(new int[] {5}));
+        assertEquals(5, sum(new int[] {5}));
 }
 
 
 private int sum(int[] values)
 {
-	int sum = 0;
-	for(int i=0; i<values.length; i++)
-	{
-		sum+=values[i];
-	}
-	return sum;
+        int sum = 0;
+        for(int i=0; i<values.length; i++)
+        {
+                sum+=values[i];
+        }
+        return sum;
 }
 ~~~
 ---
@@ -204,7 +218,7 @@ Make an object representing the invocation. Seed it with all the parameters the 
 
 ~~~java
 interface Runnable
-	public abstract void run();
+        public abstract void run();
 ~~~
 ---
 # Value Object
@@ -226,33 +240,37 @@ Represent the base case of a computation by an object.
 
 ~~~java
 public boolean setReadOnly() {
-	SecurityManager guard = System.getSecurityManager(); 
-	if (guard != null) {
-		guard.canWrite(path); 
-	}
-	return fileSystem.setReadOnly(this); 
+        SecurityManager guard = System.getSecurityManager(); 
+        if (guard != null) {
+                guard.canWrite(path); 
+        }
+        return fileSystem.setReadOnly(this); 
 }
 ~~~
 
 Say we have multiple places where `guard != null` is being checked. As the number of touch points increase, it becomes increasingly complex to ensure that null checks at every touchpoints are being made.
 
 
+---
 What's the solution to the above issue?!
 An intuitive solution is to create a new class, which does not throw error, like so.
 
 ~~~java
 public static SecurityManager getSecurityManager() 
 { 
-	return security == null ? new LaxSecurity() : security;
+        return security == null ? new LaxSecurity() : security;
 }
 ~~~
 
 ~~~java
+// LaxSecurity class
+public void canWrite(String path) {}
+
 public boolean setReadOnly() 
 {
-	SecurityManager security = System.getSecurityManager();
-	security.canWrite(path);
-	return fileSystem.setReadOnly(this);
+        SecurityManager security = System.getSecurityManager();
+        security.canWrite(path);
+        return fileSystem.setReadOnly(this);
 }
 ~~~
 
@@ -269,38 +287,39 @@ In simple words, have a base class which can then be extended to other subclasse
 
 
 Initial implementation
-~~~java
+```java
 public class worldOfWarcraftLoader(){
-	public void load(){
-		system.out.println("loading local WoW files");
-		// some code
-		system.out.println("creating needed WoW objects");
-		//some code
-		system.out.println("Downloading WoW sounds and videos");
-		//some code
-		system.out.println("cleaning temp files");
-		//some code
-		system.out.println("Loading saved WoW profiles");
-		//some code
-	}
+        public void load(){
+                system.out.println("loading local WoW files");
+                // some code
+                system.out.println("creating needed WoW objects");
+                //some code
+                system.out.println("Downloading WoW sounds and videos");
+                //some code
+                system.out.println("cleaning temp files");
+                //some code
+                system.out.println("Loading saved WoW profiles");
+                //some code
+        }
 }
 
 public class Diablo(){
-	public void load()
-	{
-		system.out.println("loading local Diablo files");
-		//some code
-		system.out.println("creating needed diablo objects");
-		//some code
-		system.out.println("Downloading diable sounds and videos");
-		//some code
-		system.out.println("cleaning temp files");
-		//some code
-		system.out.println("Loading saved diablo profiles");
-		//some code
-	}
+        public void load()
+        {
+                system.out.println("loading local Diablo files");
+                //some code
+                system.out.println("creating needed diablo objects");
+                //some code
+                system.out.println("Downloading diable sounds and videos");
+                //some code
+                system.out.println("cleaning temp files");
+                //some code
+                system.out.println("Loading saved diablo profiles");
+                //some code
+        }
 }
-~~~
+```
+
 ---
 How to get rid of code duplication here?!
 
@@ -313,22 +332,22 @@ How to get rid of code duplication here?!
 ~~~java
 
 public abstract class BaseGameLoader{
-	public void load(){
-		byte[] data = loadLocalData();
-		createObjects(data);
-		downloadAdditionalFiles();
-		cleanTempFiles();
-		initializeProfiles();
-	}
+        public void load(){
+                byte[] data = loadLocalData();
+                createObjects(data);
+                downloadAdditionalFiles();
+                cleanTempFiles();
+                initializeProfiles();
+        }
 
-	abstract byte[] loadLocalData();
-	abstract void createObjects(byte[] data);
-	abstract void downloadAdditionalFiles();
-	abstract void initializeProfiles();
+        abstract byte[] loadLocalData();
+        abstract void createObjects(byte[] data);
+        abstract void downloadAdditionalFiles();
+        abstract void initializeProfiles();
 
-	protected void cleanTempFiles(){
-		// some code
-	}
+        protected void cleanTempFiles(){
+                // some code
+        }
 }
 
 The above base class now can be extended to each subclass.
@@ -352,19 +371,19 @@ When writing a graphics editor, selection is actually a bit complicated. If you'
 ~~~java
 Figure selected;
 public void mouseDown() {
-	selected= findFigure(); 
-	if (selected != null)
-		select(selected); 
+        selected= findFigure(); 
+        if (selected != null)
+                select(selected); 
 }
 public void mouseMove() { 
-	if (selected != null)
-		move(selected); 
-	else
-		moveSelectionRectangle(); 
+        if (selected != null)
+                move(selected); 
+        else
+                moveSelectionRectangle(); 
 }
 public void mouseUp() { 
-	if (selected == null)
-		selectAll(); 
+        if (selected == null)
+                selectAll(); 
 }
 ~~~
 
@@ -374,21 +393,21 @@ To remove duplication, we can create a pluggable object, a `SelectionMode`, with
 SelectionMode mode; 
 public void mouseDown() 
 {
-	selected= findFigure(); 
-	if (selected != null)
-		mode= SingleSelection(selected); 
-	else
-		mode= MultipleSelection(); 
+        selected= findFigure(); 
+        if (selected != null)
+                mode= SingleSelection(selected); 
+        else
+                mode= MultipleSelection(); 
 }
 
 public void mouseMove() 
 { 
-	mode.mouseMove();
+        mode.mouseMove();
 }
 
 public void mouseUp() 
 {
-	mode.mouseUp(); 
+        mode.mouseUp(); 
 }
 ~~~
 
@@ -427,6 +446,7 @@ There are 2 broad approaches to this:
 2. You can write tests so they each encourage the addition of hundreds of lines of logic and hours of refactorings
 
 Q. What should you go with?
+
 A. You should be able to do either. When you're starting with a feature or refactoring, be prepared to take lots of tiny steps. As you progress, experiment with leaving out some
 steps when you're comfortable thinking ahead about the feature or have done the refactoring enough times
 
